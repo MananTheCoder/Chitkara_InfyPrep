@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef vector<int> vi;
+
+#define forn(i, n) for (int i = 0; i < n; i++)
+
 vector<int> input_vec()
 {
     int n;
