@@ -44,17 +44,58 @@ int min_energy_rec(vi &h, int i)
     return min(one, two);
 }
 
+int helper(vi &h, vi &dp, int i)
+{
+    if (dp[i] != -1)
+    {
+        return dp[i];
+    }
+    int one = abs(h[i] - h[i - 1]) + helper(h, dp, i - 1);
+    int two = abs(h[i] - h[i - 2]) + helper(h, dp, i - 2);
+    return (dp[i] = min(one, two));
+}
+
 int min_energy_memo(vi &h)
 {
     int n = h.size();
     vi dp(n, -1);
     dp[0] = 0, dp[1] = abs(h[0] - h[1]);
+    return helper(h, dp, n - 1);
+}
+
+int min_energy_tabulation(vi &h)
+{
+    int n = h.size();
+    vi dp(n, -1);
+    dp[0] = 0, dp[1] = abs(h[0] - h[1]);
+    for (int i = 2; i < n; i++)
+    {
+        int one = abs(h[i] - h[i - 1]) + dp[i - 1];
+        int two = abs(h[i] - h[i - 2]) + dp[i - 2];
+        dp[i] = min(one, two);
+    }
+    return dp[n - 1];
+}
+
+int min_energy_space_optimised(vi &h)
+{
+    int n = h.size();
+    int prev2 = 0, prev = abs(h[0] - h[1]);
+    for (int i = 2; i < n; i++)
+    {
+        int one = abs(h[i] - h[i - 1]) + prev;
+        int two = abs(h[i] - h[i - 2]) + prev2;
+        int curr = min(one, two);
+        prev2 = prev;
+        prev = curr;
+    }
+    return prev;
 }
 
 void solve()
 {
     vi heights = input_vi();
-    cout << min_energy_memo(heights) << "\n";
+    cout << min_energy_tabulation(heights) << "\n";
 }
 
 int main()
