@@ -39,7 +39,7 @@ void print_vvi(vvi &v)
     }
 }
 
-void print_neighbors(vi &v)
+void print_neighbors(vi &v) // O(V)
 {
     forn(i, v.size())
     {
@@ -58,7 +58,7 @@ pivvi dummy_graph()
     return {v, edges};
 }
 
-vvi get_adj_matrix(pivvi &graph)
+vvi get_adj_matrix(pivvi &graph) // O(E)
 {
     int v = graph.first;
     vvi edges = graph.second;
@@ -72,7 +72,7 @@ vvi get_adj_matrix(pivvi &graph)
     return adj_matrix;
 }
 
-void dfs_helper(int s, vvi &adj_matrix, vb &visited)
+void dfs_helper(int s, vvi &adj_matrix, vb &visited) // O(V+E)
 {
     visited[s] = true;
     cout << s << "\t";
@@ -87,11 +87,11 @@ void dfs_helper(int s, vvi &adj_matrix, vb &visited)
     }
 }
 
-void dfs(vvi &adj_matrix)
+void dfs(vvi &adj_matrix) // O(V+E)
 {
     int v = adj_matrix.size();
     vb visited(v, false);
-    forn(i, v)
+    forn(i, v) // V *
     {
         if (visited[i] == false)
         {

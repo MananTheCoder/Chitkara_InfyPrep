@@ -34,7 +34,7 @@ void print_vi(vector<int> v)
     v[0] = 10;
 }
 
-void print_umiusi(umiusi &adj_list)
+void print_umiusi(umiusi &adj_list) // O(V+E)
 {
     for (pair<const int, usi> &row : adj_list)
     {
@@ -49,7 +49,7 @@ void print_umiusi(umiusi &adj_list)
     }
 }
 
-void print_umiumii(umiumii &adj_list)
+void print_umiumii(umiumii &adj_list) // O(V+E)
 {
     forn(i, adj_list.size())
     {
@@ -74,7 +74,7 @@ pivvi dummy_graph()
     return graph_weighted;
 }
 
-void initialize_adj_list(umiusi &adj_list, int v)
+void initialize_adj_list(umiusi &adj_list, int v) // O(V)
 {
     forn(i, v)
     {
@@ -82,7 +82,7 @@ void initialize_adj_list(umiusi &adj_list, int v)
     }
 }
 
-void initialize_adj_list(umiumii &adj_list, int v)
+void initialize_adj_list(umiumii &adj_list, int v) // O(V)
 {
     forn(i, v)
     {
@@ -90,7 +90,7 @@ void initialize_adj_list(umiumii &adj_list, int v)
     }
 }
 
-umiusi get_adj_list(pivvi &graph)
+umiusi get_adj_list(pivvi &graph) // O(V+E)
 {
     int v = graph.first;
     vvi edges = graph.second;
@@ -105,7 +105,7 @@ umiusi get_adj_list(pivvi &graph)
     return adj_list;
 }
 
-umiumii get_adj_list_w_ud(pivvi &graph)
+umiumii get_adj_list_w_ud(pivvi &graph) // O(V+E)
 {
     int v = graph.first;
     vvi edges = graph.second;

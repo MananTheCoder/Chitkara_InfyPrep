@@ -45,7 +45,7 @@ pivvi dummy_graph()
     return {v, edges};
 }
 
-vvi get_adj_matrix(pivvi &graph)
+vvi get_adj_matrix(pivvi &graph) // O(E)
 {
     int v = graph.first;
     vvi edges = graph.second;

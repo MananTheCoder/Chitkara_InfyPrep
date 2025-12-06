@@ -2,8 +2,8 @@
 using namespace std;
 
 typedef vector<int> vi;
+typedef vector<bool> vb;
 typedef vector<vi> vvi;
-typedef pair<int, int> pii;
 typedef pair<int, vvi> pivvi;
 typedef unordered_set<int> usi;
 typedef unordered_map<int, int> umii;
@@ -35,9 +35,9 @@ void print_vi(vector<int> v)
     v[0] = 10;
 }
 
-void print_umiusi(umiusi &adj_list)
+void print_umiusi(umiusi &adj_list) // O(V+E)
 {
-    for (pair<const int, usi> &row : adj_list) // V *
+    for (pair<const int, usi> &row : adj_list)
     {
         int start = row.first;
         usi &neighbors = row.second;
@@ -59,14 +59,10 @@ void print_umiumii(umiumii &adj_list) // O(V+E)
         {
             cout << "\t" << neighbor << " -> " << dist << "\n";
         }
-    }
-}
-
-void print_vvi(vvi &v) // O(V*V)
-{
-    for (vi &x : v)
-    {
-        print_vi(x);
+        // for (pair<const int, int> &row : adj_list[i])
+        // {
+        //     int neighbor = row.first, dist = row.second;
+        //     cout << "\t" << neighbor << " -> " << dist << "\n";
     }
 }
 
@@ -76,7 +72,7 @@ pivvi dummy_graph()
     vvi edges = {{1, 2}, {1, 3}, {1, 4}, {2, 5}, {2, 6}, {3, 6}, {4, 5}, {0, 0}};
     vvi edges_w = {{1, 2, 1}, {1, 3, 2}, {1, 4, 3}, {2, 5, 4}, {2, 6, 5}, {3, 6, 6}, {4, 5, 7}, {0, 0, 8}};
     pivvi graph = {v, edges}, graph_weighted = {v, edges_w};
-    return graph_weighted;
+    return graph;
 }
 
 void initialize_adj_list(umiusi &adj_list, int v) // O(V)
@@ -125,48 +121,47 @@ umiumii get_adj_list_w_ud(pivvi &graph) // O(V+E)
     return adj_list;
 }
 
-vvi convert_adj_list_matrix(umiusi &adj_list) // O(V+E)
+void bfs_helper(umiusi &adj_list, int start, vb &visited) // O(V+E)
 {
-    int v = adj_list.size();
-    vvi adj_matrix(v, vi(v, 0));
-    forn(start, v)
+    int n = adj_list.size();
+    queue<int> nodes_queue;
+
+    nodes_queue.push(start);
+    visited[start] = true;
+    while (!nodes_queue.empty())
     {
-        usi neighbors = adj_list[start];
-        for (int neighbor : neighbors)
+        int curr = nodes_queue.front();
+        nodes_queue.pop();
+        cout << curr << "\t";
+        for (int neighbor : adj_list[curr])
         {
-            adj_matrix[start][neighbor] = 1;
-            adj_matrix[neighbor][start] = 1;
+            if (!visited[neighbor])
+            {
+                nodes_queue.push(neighbor);
+                visited[neighbor] = true;
+            }
         }
     }
-    return adj_matrix;
 }
 
-vvi convert_adj_list_matrix(umiumii &adj_list) // O(V+E)
-{                                              // weighted, undirected
-    int v = adj_list.size();
-    vvi adj_matrix(v, vi(v, 0));
-    forn(start, v)
+void bfs(umiusi &adj_list) // O(V+E)
+{
+    vb visited(adj_list.size(), false);
+    forn(i, adj_list.size())
     {
-        umii neighbor_dists = adj_list[start];
-        for (pii row : neighbor_dists)
+        if (!visited[i])
         {
-            int neighbor = row.first, weight = row.second;
-            adj_matrix[start][neighbor] = weight;
+            bfs_helper(adj_list, i, visited);
         }
     }
-    return adj_matrix;
+    cout << "\n";
 }
 
 void solve()
 {
-    // pivvi graph = dummy_graph();
-    pivvi graph_w = dummy_graph();
-    // umiusi adj_list = get_adj_list(graph);
-    // vvi adj_matrix = convert_adj_list_matrix(adj_list);
-    umiumii adj_list = get_adj_list_w_ud(graph_w);
-    // print_umiumii(adj_list);
-    // vvi adj_matrix = convert_adj_list_matrix(adj_list);
-    // print_vvi(adj_matrix);
+    pivvi graph = dummy_graph();
+    umiusi adj_list = get_adj_list(graph);
+    bfs(adj_list);
 }
 
 int main()

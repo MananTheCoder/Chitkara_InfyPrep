@@ -43,7 +43,7 @@ void print_vvi(vvi &v)
     }
 }
 
-void print_umiusi(umiusi &adj_list)
+void print_umiusi(umiusi &adj_list) // O(V+E)
 {
     for (pair<const int, usi> &row : adj_list)
     {
@@ -58,7 +58,7 @@ void print_umiusi(umiusi &adj_list)
     }
 }
 
-void print_umiumii(umiumii &adj_list)
+void print_umiumii(umiumii &adj_list) // O(V+E)
 {
     forn(i, adj_list.size())
     {
@@ -79,7 +79,7 @@ pivvi dummy_graph()
     return graph_weighted;
 }
 
-void initialize_adj_list(umiusi &adj_list, int v)
+void initialize_adj_list(umiusi &adj_list, int v) // O(V)
 {
     forn(i, v)
     {
@@ -87,7 +87,7 @@ void initialize_adj_list(umiusi &adj_list, int v)
     }
 }
 
-void initialize_adj_list(umiumii &adj_list, int v)
+void initialize_adj_list(umiumii &adj_list, int v) // O(V)
 {
     forn(i, v)
     {
@@ -95,7 +95,7 @@ void initialize_adj_list(umiumii &adj_list, int v)
     }
 }
 
-vvi get_adj_matrix_ud_uw(pivvi &graph)
+vvi get_adj_matrix_ud_uw(pivvi &graph) // O(E)
 {
     int v = graph.first;
     vvi edges = graph.second;
@@ -109,7 +109,7 @@ vvi get_adj_matrix_ud_uw(pivvi &graph)
     return adj_matrix;
 }
 
-vvi get_adj_matrix_d_w(pivvi &graph)
+vvi get_adj_matrix_d_w(pivvi &graph) // O(E)
 {
     int v = graph.first;
     vvi edges = graph.second;
@@ -122,8 +122,8 @@ vvi get_adj_matrix_d_w(pivvi &graph)
     return adj_matrix;
 }
 
-void convert_matrix_to_list(vvi &adj_matrix, umiusi &adj_list)
-{ // ud & uw
+void convert_matrix_to_list(vvi &adj_matrix, umiusi &adj_list) // O(V^2)
+{                                                              // ud & uw
     int n = adj_matrix.size();
     initialize_adj_list(adj_list, n);
     forn(start, n)
@@ -138,7 +138,7 @@ void convert_matrix_to_list(vvi &adj_matrix, umiusi &adj_list)
     }
 }
 
-void convert_matrix_to_list(vvi &adj_matrix, umiumii &adj_list)
+void convert_matrix_to_list(vvi &adj_matrix, umiumii &adj_list) // O(V^2)
 {
     // d & w
     int v = adj_matrix.size();
